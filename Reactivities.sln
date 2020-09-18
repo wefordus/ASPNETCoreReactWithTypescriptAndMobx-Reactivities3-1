@@ -1,15 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{6B729761-9177-4F59-99AB-9BCA5736A9E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{6B729761-9177-4F59-99AB-9BCA5736A9E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{D6DCF2E6-B2BD-463A-9273-37B35C265972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{D6DCF2E6-B2BD-463A-9273-37B35C265972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{7115EADC-7818-4EEF-8CBA-07E0AC5D231D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{7115EADC-7818-4EEF-8CBA-07E0AC5D231D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{FABD4B61-8942-425E-B5A5-928F4A03459C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{FABD4B61-8942-425E-B5A5-928F4A03459C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7115EADC-7818-4EEF-8CBA-07E0AC5D231D} = {7115EADC-7818-4EEF-8CBA-07E0AC5D231D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6B729761-9177-4F59-99AB-9BCA5736A9E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,5 +72,11 @@ Global
 		{FABD4B61-8942-425E-B5A5-928F4A03459C}.Release|x64.Build.0 = Release|Any CPU
 		{FABD4B61-8942-425E-B5A5-928F4A03459C}.Release|x86.ActiveCfg = Release|Any CPU
 		{FABD4B61-8942-425E-B5A5-928F4A03459C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C91685AF-4C58-46C0-9C92-AA538EC77F4E}
 	EndGlobalSection
 EndGlobal
