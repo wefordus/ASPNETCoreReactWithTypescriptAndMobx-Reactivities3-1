@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{F
 		{7115EADC-7818-4EEF-8CBA-07E0AC5D231D} = {7115EADC-7818-4EEF-8CBA-07E0AC5D231D}
 	EndProjectSection
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "client", "client\client.njsproj", "{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,18 @@ Global
 		{FABD4B61-8942-425E-B5A5-928F4A03459C}.Release|x64.Build.0 = Release|Any CPU
 		{FABD4B61-8942-425E-B5A5-928F4A03459C}.Release|x86.ActiveCfg = Release|Any CPU
 		{FABD4B61-8942-425E-B5A5-928F4A03459C}.Release|x86.Build.0 = Release|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Release|x64.Build.0 = Release|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D1D5E8F-5A6C-4F53-B4E4-E9886935543F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
