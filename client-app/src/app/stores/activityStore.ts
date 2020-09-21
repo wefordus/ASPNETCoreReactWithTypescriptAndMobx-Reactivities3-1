@@ -37,7 +37,6 @@ class ActivityStore {
         activities.forEach(activity => {
           activity.date = new Date(activity.date);
           this.activityRegistry.set(activity.id, activity);
-          //console.log(activity);
         });
         this.loadingInitial = false;
       })
