@@ -2,6 +2,7 @@
 using API.Middleware;
 using Application.Activities;
 using Application.Interfaces;
+using AutoMapper;
 using Domain;
 using FluentValidation.AspNetCore;
 using Infrastructure.Security;
@@ -35,6 +36,7 @@ namespace API
         {
             services.AddDbContext<DataContext>(opt =>
             {
+                opt.UseLazyLoadingProxies();
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddCors(opt =>
@@ -45,34 +47,36 @@ namespace API
                 });
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddAutoMapper(typeof(List.Handler));
 
-            services.AddControllers()
-                .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
-                .SetCompatibilityVersion(CompatibilityVersion.Latest);
-
-            services.AddAuthorization(config =>
+            services.AddControllers(opt =>
             {
-                config.DefaultPolicy = new AuthorizationPolicyBuilder()
-                                    .RequireAuthenticatedUser()
-                                    .Build();
-            });
-            /*
-             services.AddAuthorization(options =>
-             {
-                 options.AddPolicy("AtLeast21", policy =>
-                     policy.Requirements.Add(new MinimumAgeRequirement(21)));
-             });
-             */
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
 
+            }).AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
+              .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("IsActivityHost", policy =>
+                {
+                    policy.Requirements.Add(new IsHostRequirement());
+                });
+
+            });
+            services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
+
             // dotnet user-secrets init -p api/
             // secrets file location incsproj file    <UserSecretsId>ca0fa0ca-5692-4ff2-b6be-4bbc50143272</UserSecretsId>
             // dotnet user-secrets set "TokenKey" "zslsdkdjdhsjhjsfglhjsdgjhsgkjsgjhsgfjhgfsjhfgsjh" -p api/
             // dotnet user-secrets list -p api/
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -97,21 +101,19 @@ namespace API
 
             //if (env.IsDevelopment())
             //{
-            // app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
             //}
             //else
             //{
-            //    //The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //    app.UseHsts();
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // app.UseHsts();
             //}
 
             // app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");
-            
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers().RequireAuthorization(); ;

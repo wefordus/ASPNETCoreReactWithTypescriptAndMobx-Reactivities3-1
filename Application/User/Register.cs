@@ -50,10 +50,10 @@ namespace Application.User
 
             public async Task<User> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (await _context.Users.AnyAsync(x => x.Email == request.Email))
+                if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                     throw new RestException(HttpStatusCode.BadRequest, new {Email = "Email already exists"});
 
-                if (await _context.Users.AnyAsync(x => x.UserName == request.Username))
+                if (await _context.Users.Where(x => x.UserName == request.Username).AnyAsync())
                     throw new RestException(HttpStatusCode.BadRequest, new {Username = "Username already exists"});
 
                 var user = new AppUser
