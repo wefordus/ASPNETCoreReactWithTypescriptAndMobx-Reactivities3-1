@@ -48,7 +48,6 @@ namespace API
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(List.Handler));
-
             services.AddControllers(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -56,7 +55,7 @@ namespace API
 
             }).AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
               .SetCompatibilityVersion(CompatibilityVersion.Latest);
-            
+
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
@@ -68,14 +67,8 @@ namespace API
                 {
                     policy.Requirements.Add(new IsHostRequirement());
                 });
-
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
-
-            // dotnet user-secrets init -p api/
-            // secrets file location incsproj file    <UserSecretsId>ca0fa0ca-5692-4ff2-b6be-4bbc50143272</UserSecretsId>
-            // dotnet user-secrets set "TokenKey" "zslsdkdjdhsjhjsfglhjsdgjhsgkjsgjhsgfjhgfsjhfgsjh" -p api/
-            // dotnet user-secrets list -p api/
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
