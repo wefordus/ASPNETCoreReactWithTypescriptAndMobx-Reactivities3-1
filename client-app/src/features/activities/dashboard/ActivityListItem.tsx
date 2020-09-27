@@ -4,28 +4,28 @@ import { Link } from 'react-router-dom';
 import { IActivity } from '../../../app/models/activity';
 import { format } from 'date-fns';
 import ActivityListItemAttendees from './ActivityListItemAttendees';
-import { createNewAttendee } from '../../../app/common/util/util';
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
-
-    var host = createNewAttendee();
-
-    const aHost = activity.attendees.filter(x => x.isHost)[0];
-    if(aHost)
-    {
-        host = aHost;
-    }
-    return (
+  const host = activity.userActivities.filter(x => x.isHost)[0];
+  return (
     <Segment.Group>
       <Segment>
         <Item.Group>
           <Item>
-            <Item.Image size='tiny' circular src={host.image || '/assets/user.png'} />
+            <Item.Image
+              size='tiny'
+              circular
+              src={host.image || '/assets/user.png'}
+              style={{ marginBottom: 3 }}
+            />
             <Item.Content>
               <Item.Header as={Link} to={`/activities/${activity.id}`}>
                 {activity.title}
               </Item.Header>
-              <Item.Description>Hosted by {host.displayName}</Item.Description>
+              <Item.Description>
+                Hosted by
+                <Link to={`/profile/${host.username}`}> {host.displayName}</Link>
+              </Item.Description>
               {activity.isHost && (
                 <Item.Description>
                   <Label
@@ -53,7 +53,7 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
         <Icon name='marker' /> {activity.venue}, {activity.city}
       </Segment>
       <Segment secondary>
-        <ActivityListItemAttendees attendees={activity.attendees} />
+        <ActivityListItemAttendees attendees={activity.userActivities} />
       </Segment>
       <Segment clearing>
         <span>{activity.description}</span>

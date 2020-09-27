@@ -25,24 +25,7 @@ namespace Infrastructure.Security
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirement requirement)
         {
-            if (context.Resource is Endpoint endpoint)
-            {
-                //var currentUserName = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
-                //var httpContext = _httpContextAccessor.HttpContext;
-                //string path = httpContext.Request.Path;
-                //var guid = path.Split('/')[3]; //super hack
-
-                //var activityId = Guid.Parse(guid);
-
-                //var activity = _context.Activities.FindAsync(activityId).Result;
-
-                //var host = activity?.UserActivities.FirstOrDefault(x => x.IsHost);
-
-                //if (host?.AppUser?.UserName == currentUserName)
-                    context.Succeed(requirement);
-            }
-            else if (context.Resource is AuthorizationFilterContext authContext)
+            if (context.Resource is AuthorizationFilterContext authContext)
             {
                 var currentUserName = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -50,13 +33,11 @@ namespace Infrastructure.Security
 
                 var activity = _context.Activities.FindAsync(activityId).Result;
 
-                var host = activity?.UserActivities.FirstOrDefault(x => x.IsHost);
+                var host = activity.UserActivities.FirstOrDefault(x => x.IsHost);
 
                 if (host?.AppUser?.UserName == currentUserName)
                     context.Succeed(requirement);
-            }
-            else
-            {
+            } else {
                 context.Fail();
             }
 
