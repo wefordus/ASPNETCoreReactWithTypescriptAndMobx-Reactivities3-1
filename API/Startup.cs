@@ -56,6 +56,11 @@ namespace API
             //    opt.UseLazyLoadingProxies();
             //    opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             //});
+            //services.AddDbContext<DataContext>(opt =>
+            //{
+            //    opt.UseLazyLoadingProxies();
+            //    opt.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+            //});
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
@@ -160,6 +165,7 @@ namespace API
             app.UseReferrerPolicy(opt => opt.NoReferrer());
             app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
             app.UseXfo(opt => opt.Deny());
+            //app.UseCspReportOnly(opt => opt //produces a report go look in chrome debugger elements tab errors
             app.UseCsp(opt => opt
                     .BlockAllMixedContent()
                     .StyleSources(s => s.Self()

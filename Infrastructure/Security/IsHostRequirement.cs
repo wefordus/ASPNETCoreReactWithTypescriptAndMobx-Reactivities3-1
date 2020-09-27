@@ -25,8 +25,13 @@ namespace Infrastructure.Security
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirement requirement)
         {
+            // This code gets called twice ???  why?
+            
+            string[] pathSplit = _httpContextAccessor.HttpContext.Request.Path.Value.Split('/');
+
             if (context.Resource is AuthorizationFilterContext authContext)
             {
+                //2nd time goes here
                 var currentUserName = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
                 var activityId = Guid.Parse(authContext.RouteData.Values["id"].ToString());
@@ -37,9 +42,26 @@ namespace Infrastructure.Security
 
                 if (host?.AppUser?.UserName == currentUserName)
                     context.Succeed(requirement);
-            } else {
+            }
+            else if (pathSplit.Length == 4)
+            {
+                //first time goes here ???  why?
+                var currentUserName = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                var activityId = Guid.Parse(pathSplit[3]);
+
+                var activity = _context.Activities.FindAsync(activityId).Result;
+
+                var host = activity.UserActivities.FirstOrDefault(x => x.IsHost);
+
+                if (host?.AppUser?.UserName == currentUserName)
+                    context.Succeed(requirement);
+            }
+            else
+            {
                 context.Fail();
             }
+            context.Succeed(requirement);
 
             return Task.CompletedTask;
         }

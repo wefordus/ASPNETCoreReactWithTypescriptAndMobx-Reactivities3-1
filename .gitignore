@@ -339,3 +339,5 @@ ASALocalRun/
 .localhistory/
 
 /client/build
+wwwroot
+publish

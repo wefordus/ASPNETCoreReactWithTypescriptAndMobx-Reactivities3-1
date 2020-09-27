@@ -33,13 +33,13 @@
     "revalidate": "^1.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.3",
-    "typescript": "^3.5.3",
+    "typescript": "3.4.5",
     "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "mv build ../API/wwwroot",
+    "postbuild": "move build ../API/wwwroot",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
