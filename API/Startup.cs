@@ -186,7 +186,7 @@ namespace API
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); //.RequireAuthorization();
+                endpoints.MapControllers().RequireAuthorization();
                 endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapFallbackToController("Index", "Fallback");
                 endpoints.MapControllerRoute("default", "{controller=Fallback}/{action=Index}");

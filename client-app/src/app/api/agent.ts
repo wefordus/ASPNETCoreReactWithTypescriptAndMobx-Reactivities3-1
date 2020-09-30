@@ -47,8 +47,14 @@ axios.interceptors.response.use(undefined, error => {
 const responseBody = (response: AxiosResponse) => response.data;
 
 const requests = {
-  get: (url: string) => axios.get(url).then(responseBody),
-  post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
+  get: (url: string) =>
+    axios
+      .get(url)
+      .then(responseBody),
+  post: (url: string, body: {}) =>
+    axios
+      .post(url, body)
+      .then(responseBody),
   put: (url: string, body: {}) =>
     axios
       .put(url, body)
@@ -69,8 +75,8 @@ const requests = {
 };
 
 const Activities = {
-  list: (parameters: URLSearchParams): Promise<IActivitiesEnvelope> =>
-    axios.get('/activities', {params: parameters}).then(responseBody),
+  list: (params: URLSearchParams): Promise<IActivitiesEnvelope> =>
+    axios.get('/activities', { params: params }).then(responseBody),
   details: (id: string) => requests.get(`/activities/${id}`),
   create: (activity: IActivity) => requests.post('/activities', activity),
   update: (activity: IActivity) =>
@@ -81,12 +87,18 @@ const Activities = {
 };
 
 const User = {
-  current: (): Promise<IUser> =>
-    requests.get('/user'),
+  current: (): Promise<IUser> => requests.get('/user'),
   login: (user: IUserFormValues): Promise<IUser> =>
     requests.post(`/user/login`, user),
   register: (user: IUserFormValues): Promise<IUser> =>
-    requests.post(`/user/register`, user)
+    requests.post(`/user/register`, user),
+  fbLogin: (accessToken: string) =>
+    requests.post(`/user/facebook`, { accessToken }),
+  refreshToken: (): Promise<IUser> => requests.post(`/user/refreshToken`, {}),
+  verifyEmail: (token: string, email: string): Promise<void> =>
+    requests.post(`/user/verifyEmail`, { token, email }),
+  resendVerifyEmailConfirm: (email: string): Promise<void> =>
+    requests.get(`/user/resendEmailVerification?email=${email}`)
 };
 
 const Profiles = {
@@ -94,16 +106,13 @@ const Profiles = {
     requests.get(`/profiles/${username}`),
   uploadPhoto: (photo: Blob): Promise<IPhoto> =>
     requests.postForm(`/photos`, photo),
-  setMainPhoto: (id: string) =>
-    requests.post(`/photos/${id}/setMain`, {}),
-  deletePhoto: (id: string) =>
-    requests.del(`/photos/${id}`),
+  setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
+  deletePhoto: (id: string) => requests.del(`/photos/${id}`),
   updateProfile: (profile: Partial<IProfile>) =>
     requests.put(`/profiles`, profile),
   follow: (username: string) =>
     requests.post(`/profiles/${username}/follow`, {}),
-  unfollow: (username: string) =>
-    requests.del(`/profiles/${username}/follow`),
+  unfollow: (username: string) => requests.del(`/profiles/${username}/follow`),
   listFollowings: (username: string, predicate: string) =>
     requests.get(`/profiles/${username}/follow?predicate=${predicate}`),
   listActivities: (username: string, predicate: string) =>
